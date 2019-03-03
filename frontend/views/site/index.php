@@ -5,6 +5,15 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 
 $this->title = 'Forex chart';
+$js =<<<JS
+$('#html_table').on('fileuploaded', function(event, data, previewId, index) {
+    document.location = '/site/index';
+});
+$('#html_table').on('filebatchuploadcomplete', function(event, data, previewId, index) {
+    document.location = '/site/index';
+});
+JS;
+$this->registerJs($js,$this::POS_END);
 ?>
 <div class="site-index">
     <div class="body-content">

@@ -93,7 +93,7 @@ class SiteController extends Controller
         Yii::$app->session->set('html',$html);
         Yii::$app->session->set('table',$table);
 
-        return $this->redirect('/site/index','302');
+        return true;
 
     }
 
