@@ -22,7 +22,7 @@ class Parse extends Model
         $dt = explode(' ',$value);
         $d = explode('.',$dt[0]);
         $t = explode(':',$dt[1]);
-        return mktime($t[0],$t[1],$t[1],$d[1],$d[2],$d[0]);
+        return mktime($t[0],$t[1],$t[2],$d[1],$d[2],$d[0]);
     }
 
     /**
@@ -48,11 +48,13 @@ class Parse extends Model
         }
         $table = [];
         $profit = 0;
+        $first = true;
         foreach ($rows as $row){
-            if (isset($row[2]) and $row[2] == 'balance'){
+            if (isset($row[2]) and $row[2] == 'balance' and $first){
+                $first = false;
                 $profit = floatval($row[4]);
                 $time = self::parseDate($row[1]);
-                $table[$time] = [
+                $table[] = [
                     'type' => $row[2],
                     'time' => $time,
                     'date' => date('d.m.Y H:i:s',$time),
@@ -64,7 +66,7 @@ class Parse extends Model
                     $delta = floatval($row[13]);
                     $profit += $delta;
                     $time = self::parseDate($row[1]);
-                    $table[$time] = [
+                    $table[] = [
                         'type' => $row[2],
                         'time' => $time,
                         'date' => date('d.m.Y H:i:s',$time),
@@ -74,7 +76,6 @@ class Parse extends Model
                 }
             }
         }
-        ksort($table);
 
         return $table;
     }
